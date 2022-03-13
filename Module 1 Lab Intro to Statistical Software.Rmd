@@ -1,0 +1,176 @@
+---
+title: "Lab 1: Intro to R"
+author: "Author Name"
+date: "`r Sys.Date()`"
+output: openintro::lab_report
+---
+
+{r load-packages, message=FALSE}O
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+library(openintro)
+```
+
+```{r}
+arbuthnot
+```
+
+```{r}
+glimpse(arbuthnot)
+```
+
+```{r}
+arbuthnot$boys
+```
+
+```{r}
+ggplot(data = arbuthnot, aes(x = year, y = boys)) + 
+  geom_point()
+```
+
+### Exercise 1
+
+```{r view-girls-counts}
+arbuthnot$girls
+```
+
+```{r}
+ggplot(data = arbuthnot, aes(x = year, y = girls)) +
+  geom_line()
+```
+
+```{r}
+ggplot(data = arbuthnot, aes(x = year, y = girls)) +
+  geom_line()
+```
+
+### Exercise 2
+
+To learn what a function does and how to use it (e.g. the function's arguments), just type in a question mark followed by the name of the function that you're interested in into the console. IE type ?ggplot to learn what ggplot does.
+
+```{r trend-girls}
+arbuthnot$boys + arbuthnot$girls
+```
+
+```{r trend-girls}
+arbuthnot <- arbuthnot %>%
+  mutate(total = boys + girls)
+```
+
+This code has a lot of new pieces to it, so let's break it down. In the first line we are doing two things, (1) adding a new total column to this updated data frame, and (2) overwriting the existing arbuthnot data frame with an updated data frame that includes the new total column. We are able to chain these two processes together using the piping (%\>%) operator. The piping operator takes the output of the previous expression and "pipes it" into the first argument of the next expression.
+
+```{r}
+ggplot(data = arbuthnot, aes(x = year, y = total)) + 
+  geom_line()
+#Shows the total number of baptisms per year
+```
+
+```{r}
+arbuthnot <- arbuthnot %>%
+  mutate(boy_to_girl_ratio = boys / girls)
+# calculates the ratio of boys to girls
+```
+
+```{r}
+ggplot(data = arbuthnot, aes(x = boys, y = girls)) + 
+  geom_line()
+# plots the ratio of girls to boys
+```
+
+```{r}
+arbuthnot <- arbuthnot %>%
+  mutate(boy_ratio = boys / total)
+#calculates the ratio of boy baptisms to total births
+```
+
+```{r}
+ggplot(data = arbuthnot, aes(x = total, y = boys)) + 
+  geom_line()
+# plots total baptisms per year to number of boys per year 
+```
+
+### Exercise 3
+
+Insert any text here.
+
+```{r plot-prop-boys-arbuthnot}
+arbuthnot <- arbuthnot %>%
+  mutate(more_boys = boys > girls)
+# tells us weather or not boy baptisms exceed girls in a given year
+ggplot(data = arbuthnot, aes(x = boys, y = girls)) + 
+  geom_point()
+# plots ratio of boy to girl baptisms
+```
+
+```{r}
+arbuthnot %>%
+  summarize(min = min(boys),
+            max = max(boys)
+            )
+```
+
+\
+
+### Exercise 4
+
+Insert any text here.
+
+```{r dim-present}
+present
+```
+
+```{r}
+range(present$year)
+```
+
+```{r}
+dim(present)
+```
+
+```{r}
+colnames(present)
+```
+
+### Exercise 5
+
+The present data frame is small in range in comparison, however, the births exceed Arbuthnot's by almost 1/4 million. However, with similar variables, the comparisons are easy to see.
+
+```{r}
+range(present$boys + present$girls) - range(arbuthnot$boys + arbuthnot$girls)
+```
+
+### Exercise 6
+
+Insert any text here.
+
+```{r plot-prop-boys-present}
+plot(x = present$year, y = present$boys/present$girls, type = "l", main = "Ratio of Boy-to-Girl Birthrates in the USA Between 1940 to 2002" ,xlab = "Year", ylab = "boy-to-girl ratio")
+```
+
+```{r}
+range(present$boys/present$girls)
+```
+
+```{r}
+range(arbuthnot$boys/arbuthnot$girls)
+```
+
+### Exercise 7
+
+Insert any text here.
+
+```{r find-max-total}
+present$year[present$boys+present$girls == max(present$boys+present$girls)]
+```
+
+```{r}
+max(present$boys+present$girls)
+```
+
+```{r}
+
+```
